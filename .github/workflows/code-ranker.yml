@@ -1,10 +1,22 @@
+# SMOKE TEST stub — points at the feature branch of code-ranker-ci (not @v1),
+# so this exercises the new language-parameterized report+check workflow before
+# the v1 tag is moved. Mirrors what the onboarding PR would generate.
 name: code-ranker
 on:
   pull_request:
-  push: { branches: [main] }
+  push:
 jobs:
-  report:
-    uses: ffedoroff/code-ranker-ci/.github/workflows/report.yml@v1
+  code-ranker:
+    if: github.event_name == 'pull_request' || github.ref_name == github.event.repository.default_branch
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [python, rust, javascript, markdown]
+    uses: ffedoroff/code-ranker-ci/.github/workflows/report.yml@feat/per-language-report-check
+    with:
+      language: ${{ matrix.language }}
+      do_report: true
+      do_check: true
     permissions:
       id-token: write
       contents: read
