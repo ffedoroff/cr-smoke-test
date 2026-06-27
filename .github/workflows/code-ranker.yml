@@ -8,21 +8,28 @@ on:
 jobs:
   code-ranker:
     name: code-ranker (${{ matrix.language }})
-    if: github.event_name == 'pull_request' || github.ref_name == github.event.repository.default_branch
     strategy:
       fail-fast: false
       matrix:
         include:
-          - { language: python,     do_report: true, do_check: true }
-          - { language: rust,       do_report: true, do_check: true }
-          - { language: javascript, do_report: true, do_check: true }
-          - { language: markdown,   do_report: true, do_check: false }   # advisory-only, чтобы проверить per-language флаг
-    uses: ffedoroff/code-ranker-ci/.github/workflows/report.yml@feat/per-language-report-check
+          - { language: python,     do_report: true, do_check: true,  pr_comment: true }
+          - { language: rust,       do_report: true, do_check: true,  pr_comment: true }
+          - { language: javascript, do_report: true, do_check: true,  pr_comment: false }   # excluded from PR comment
+          - { language: markdown,   do_report: true, do_check: false, pr_comment: true }     # advisory-only gate
+    uses: ffedoroff/code-ranker-ci/.github/workflows/report.yml@main
     with:
       language: ${{ matrix.language }}
       do_report: ${{ matrix.do_report }}
       do_check: ${{ matrix.do_check }}
+      pr_comment: ${{ matrix.pr_comment }}
     permissions:
       id-token: write
       contents: read
       pull-requests: write
+  comment:
+    needs: code-ranker
+    if: ${{ always() && github.event_name == 'pull_request' }}
+    uses: ffedoroff/code-ranker-ci/.github/workflows/comment.yml@main
+    permissions:
+      pull-requests: write
+      actions: read
