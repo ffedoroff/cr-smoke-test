@@ -15,7 +15,7 @@ jobs:
           - { language: python,     do_report: true, do_check: true,  pr_comment: true }
           - { language: rust,       do_report: true, do_check: true,  pr_comment: true }
           - { language: javascript, do_report: true, do_check: true,  pr_comment: false }   # excluded from PR comment
-          - { language: markdown,   do_report: true, do_check: false, pr_comment: true }     # advisory-only gate
+          - { language: markdown,   do_report: true, do_check: true , pr_comment: true }     # advisory-only gate
     uses: ffedoroff/code-ranker-ci/.github/workflows/report.yml@main
     with:
       language: ${{ matrix.language }}
