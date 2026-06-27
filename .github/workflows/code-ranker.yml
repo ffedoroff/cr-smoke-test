@@ -7,6 +7,7 @@ on:
   push:
 jobs:
   code-ranker:
+    name: code-ranker (${{ matrix.language }})
     if: github.event_name == 'pull_request' || github.ref_name == github.event.repository.default_branch
     strategy:
       fail-fast: false
