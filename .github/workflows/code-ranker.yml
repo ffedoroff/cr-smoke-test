@@ -11,12 +11,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [python, rust, javascript, markdown]
+        include:
+          - { language: python,     do_report: true, do_check: true }
+          - { language: rust,       do_report: true, do_check: true }
+          - { language: javascript, do_report: true, do_check: true }
+          - { language: markdown,   do_report: true, do_check: false }   # advisory-only, чтобы проверить per-language флаг
     uses: ffedoroff/code-ranker-ci/.github/workflows/report.yml@feat/per-language-report-check
     with:
       language: ${{ matrix.language }}
-      do_report: true
-      do_check: true
+      do_report: ${{ matrix.do_report }}
+      do_check: ${{ matrix.do_check }}
     permissions:
       id-token: write
       contents: read
