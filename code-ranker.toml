@@ -1,0 +1,3 @@
+# smoke: force violations to exercise the error UI
+[plugins.base.rules.thresholds.file]
+sloc = 1
