@@ -1,0 +1,4 @@
+# Rust build artifacts
+/target
+# Library crate: lockfile is generated, not part of the fixture
+Cargo.lock
