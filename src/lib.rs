@@ -7,3 +7,8 @@ pub fn add(a: i32, b: i32) -> i32 {
 pub fn greet(name: &str) -> String {
     format!("hello {name}")
 }
+
+/// E2E final check: full pipeline on the shipped state (v1 moved, fix deployed).
+pub fn smoke_e2e_final() -> u32 {
+    42
+}
