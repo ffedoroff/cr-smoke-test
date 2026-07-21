@@ -12,3 +12,8 @@ pub fn greet(name: &str) -> String {
 pub fn smoke_e2e_final() -> u32 {
     42
 }
+
+/// Second push: the sticky comment must be UPDATED in place, not duplicated.
+pub fn smoke_e2e_second_push() -> u32 {
+    43
+}
